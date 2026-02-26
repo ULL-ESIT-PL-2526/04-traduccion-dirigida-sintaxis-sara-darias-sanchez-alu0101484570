@@ -47,8 +47,12 @@ En cambio cuando lo que estamos reconociendo son espacios en blanco, entonces lo
 ```
 
 ### Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
-123 -> NUMBER
-** -> OP
-45 -> NUMBER
-+ -> OP
-@ -> INVALID
+123 -> NUMBER   
+** -> OP   
+45 -> NUMBER  
++ -> OP   
+@ -> INVALID   
+
+### Indique por qué ** debe aparecer antes que [-+*/]
+Esto se debe a que el lexer aplica las reglas en orden y si pusieramos primero [-+*/] cuando apareciera ** nunca reconocería que es el operando de elevado, sino que lo reconocería como si fueran dos operadores de multiplicación. Pero nosotros queremos que se reconozca ** como un operador distinto que *.  
+Es por ello que si una el inicio de una regla coincide con el de otra debemos poner aquella que sea más larga encima.
