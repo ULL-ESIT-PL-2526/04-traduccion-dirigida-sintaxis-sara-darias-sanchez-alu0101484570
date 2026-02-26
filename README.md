@@ -32,7 +32,7 @@ Type ".help" for more information.
 
 ## Preguntas
 ### Describa la diferencia entre /* skip whitespace */ y devolver un token.
-Cuando se devuelve un token estamos retornando el valor del identificador de ese token como en los siguientes ejemplos
+Cuando se devuelve un token estamos retornando el valor del identificador de ese token, como en los siguientes ejemplos:
 ``` JavaScript
 [0-9]+ { return 'NUMBER'; }
 "**" { return 'OP'; }
@@ -40,9 +40,15 @@ Cuando se devuelve un token estamos retornando el valor del identificador de ese
 <<EOF>> { return 'EOF'; }
 . { return 'INVALID'; }
 ```
-En cambio cuando lo que estamos reconociendo son espacios en blanco, entonces lo que hacemos es saltarnos esa  y continuar sin devolver nada.   
+Además lo que retorna se lo pasaría al analizador sintáctico 
+En cambio cuando lo que estamos reconociendo son espacios en blanco, entonces lo que hacemos es saltarnos ese caracter y continuar sin devolver nada.   
 ``` JavaScript
 \s+ { /* skip whitespace */; }
 ```
 
 ### Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
+123 -> NUMBER
+** -> OP
+45 -> NUMBER
++ -> OP
+@ -> INVALID
