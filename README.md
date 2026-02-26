@@ -48,11 +48,17 @@ En cambio cuando lo que estamos reconociendo son espacios en blanco, entonces lo
 
 ### Escriba la secuencia exacta de tokens producidos para la entrada 123**45+@.
 123 -> NUMBER   
-** -> OP   
-45 -> NUMBER  
-+ -> OP   
-@ -> INVALID   
+** -> OP    
+45 -> NUMBER     
+\+ -> OP   
+@ -> INVALID  
 
 ### Indique por qué ** debe aparecer antes que [-+*/]
 Esto se debe a que el lexer aplica las reglas en orden y si pusieramos primero [-+*/] cuando apareciera ** nunca reconocería que es el operando de elevado, sino que lo reconocería como si fueran dos operadores de multiplicación. Pero nosotros queremos que se reconozca ** como un operador distinto que *.  
 Es por ello que si una el inicio de una regla coincide con el de otra debemos poner aquella que sea más larga encima.
+
+### Explique cuándo se devuelve EOF.
+EOF se devuelve al final cuando ya se ha terminado de leer todo el fichero y no queda más entrada por leer, es entonces cuando se encuentra << EOF >>.
+
+### Explique por qué existe la regla . que devuelve INVALID.
+Para poder gestionar los errores de encontrarnos con caracter un inesperado. la regla  ``` . { return 'INVALID'; } ```, se aplicara cuando el caracter encontrado no satisfaga ninguna de las otras reglas, de esta forma sabemos que para ese caracter no tiene significado para nosotros ya que no lo teníamos ni contemplado y por tanto tampoco vamos a hacer nada con el.
