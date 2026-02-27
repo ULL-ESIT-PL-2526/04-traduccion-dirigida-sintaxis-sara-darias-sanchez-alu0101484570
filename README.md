@@ -1,36 +1,17 @@
-# Syntax Directed Translation with Jison
+# Práctica 4 Traducción dirigida por la sintaxis: léxico
+Esta es la cuarta práctica de la asignatura Procesadores de Lenguajes que es una asignatura obligatoria de la mención de computación del grado de ingeniería informática de la ULL.
+##  Estructura
+En esta práctica se pretende 
+1 Instalar dependencias y ejecutar los test
+2 Cuestiones sobre el Lexer en Jison
+3 Modificar el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
+4 Modificar el analizador léxico de grammar.jison para que reconozca números en punto flotante.
+5  Añadir pruebas para las modificaciones del analizador léxico de grammar.jison.
 
-Jison is a tool that receives as input a Syntax Directed Translation and produces as output a JavaScript parser  that executes
-the semantic actions in a bottom up ortraversing of the parse tree.
- 
-
-## Compile the grammar to a parser
-
-See file [grammar.jison](./src/grammar.jison) for the grammar specification. To compile it to a parser, run the following command in the terminal:
-``` 
-➜  jison git:(main) ✗ npx jison grammar.jison -o parser.js
-```
-
-## Use the parser
-
-After compiling the grammar to a parser, you can use it in your JavaScript code. For example, you can run the following code in a Node.js environment:
-
-```
-➜  jison git:(main) ✗ node                                
-Welcome to Node.js v25.6.0.
-Type ".help" for more information.
-> p = require("./parser.js")
-{
-  parser: { yy: {} },
-  Parser: [Function: Parser],
-  parse: [Function (anonymous)],
-  main: [Function: commonjsMain]
-}
-> p.parse("2*3")
-6
-```
-
-## Preguntas
+## Instalar dependencias y ejecutar los test
+Se instalaron las dependencias con ```npm install ``` y se genero el analizador sintáctico con ```npx jison src/grammar.jison -o src/parser.js``` 
+### Ejecutar los test
+## Cuestiones sobre el Lexeren Jison
 ### Describa la diferencia entre /* skip whitespace */ y devolver un token.
 Cuando se devuelve un token estamos retornando el valor del identificador de ese token, como en los siguientes ejemplos:
 ``` JavaScript
@@ -75,4 +56,4 @@ Modificamos la regla ```[0-9]+    { return 'NUMBER';}``` y la cambiamos a
 ![float number](media/float-numbers.png)
 
 ### Añada pruebas para las modificaciones del analizador léxico de grammar.jison.
-![test](media/test)
+![test](media/tests.png)
