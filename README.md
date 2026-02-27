@@ -64,5 +64,12 @@ EOF se devuelve al final cuando ya se ha terminado de leer todo el fichero y no 
 Para poder gestionar los errores de encontrarnos con caracter un inesperado. la regla  ``` . { return 'INVALID'; } ```, se aplicara cuando el caracter encontrado no satisfaga ninguna de las otras reglas, de esta forma sabemos que para ese caracter no tiene significado para nosotros ya que no lo teníamos ni contemplado y por tanto tampoco vamos a hacer nada con el.
 ## Modificar grammar.js
 ### Modifique el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
-Modificamos el fichero grammar.js añadiendo una línea que ponga ``` ```, esta regla debemos ponerla antes que la regla ```[-+*/]    { return 'OP';} `` ya que sino no nos detectaría los comentarios.   
+Modificamos el fichero grammar.js añadiendo una línea que ponga ```"//".*  {/*skip one line comments*/;}```, esta regla debemos ponerla antes que la regla ```[-+*/]    { return 'OP';} ``` ya que sino no nos detectaría los comentarios, porque coincide con el inicio coincide con / del operador division.    
+    
 ![one line](media/one-line-comments.png)
+
+### Modifique el analizador léxico de grammar.jison para que reconozca números en punto flotante como 2.35e-3, 2.35e+3, 2.35E-3, 2.35 y 23.
+Modificamos la regla ```[0-9]+    { return 'NUMBER';}``` y la cambiamos a    
+```[0-9]+(\.[0-9]+)?([eE][-+][0-9]+)?    { return 'NUMBER';}``` para que nos reconozca los números en punto flotante.
+     
+![float number](media/float-numbers.png)
