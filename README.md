@@ -54,7 +54,7 @@ En cambio cuando lo que estamos reconociendo son espacios en blanco, entonces lo
 @ -> INVALID  
 
 ### Indique por qué ** debe aparecer antes que [-+*/]
-Esto se debe a que el lexer aplica las reglas en orden y si pusieramos primero [-+*/] cuando apareciera ** nunca reconocería que es el operando de elevado, sino que lo reconocería como si fueran dos operadores de multiplicación. Pero nosotros queremos que se reconozca ** como un operador distinto que *.  
+Esto se debe a que el lexer aplica las reglas en orden y si pusieramos primero [-+*/] cuando apareciera ** nunca reconocería que es el operando de potencia, sino que lo reconocería como si fueran dos operadores de multiplicación. Pero nosotros queremos que se reconozca ** como un operador distinto que *.  
 Es por ello que si una el inicio de una regla coincide con el de otra debemos poner aquella que sea más larga encima.
 
 ### Explique cuándo se devuelve EOF.
@@ -62,3 +62,7 @@ EOF se devuelve al final cuando ya se ha terminado de leer todo el fichero y no 
 
 ### Explique por qué existe la regla . que devuelve INVALID.
 Para poder gestionar los errores de encontrarnos con caracter un inesperado. la regla  ``` . { return 'INVALID'; } ```, se aplicara cuando el caracter encontrado no satisfaga ninguna de las otras reglas, de esta forma sabemos que para ese caracter no tiene significado para nosotros ya que no lo teníamos ni contemplado y por tanto tampoco vamos a hacer nada con el.
+## Modificar grammar.js
+### Modifique el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
+Modificamos el fichero grammar.js añadiendo una línea que ponga ``` ```, esta regla debemos ponerla antes que la regla ```[-+*/]    { return 'OP';} `` ya que sino no nos detectaría los comentarios.   
+![one line](media/one-line-comments.png)
