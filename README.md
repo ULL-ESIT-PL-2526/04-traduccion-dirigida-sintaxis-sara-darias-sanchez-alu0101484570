@@ -11,6 +11,7 @@ En esta práctica se pretende
 ## Instalar dependencias y ejecutar los test
 Se instalaron las dependencias con ```npm install ``` y se genero el analizador sintáctico con ```npx jison src/grammar.jison -o src/parser.js``` 
 ### Ejecutar los test
+![test](media/all-test.png)
 ## Cuestiones sobre el Lexeren Jison
 ### Describa la diferencia entre /* skip whitespace */ y devolver un token.
 Cuando se devuelve un token estamos retornando el valor del identificador de ese token, como en los siguientes ejemplos:
