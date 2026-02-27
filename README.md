@@ -73,3 +73,6 @@ Modificamos la regla ```[0-9]+    { return 'NUMBER';}``` y la cambiamos a
 ```[0-9]+(\.[0-9]+)?([eE][-+][0-9]+)?    { return 'NUMBER';}``` para que nos reconozca los números en punto flotante.
      
 ![float number](media/float-numbers.png)
+
+### Añada pruebas para las modificaciones del analizador léxico de grammar.jison.
+![test](media/test)
