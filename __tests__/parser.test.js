@@ -110,7 +110,7 @@ describe('Parser Tests', () => {
       expect(() => parse("3 +")).toThrow();
       expect(() => parse("+ 3")).toThrow();
       expect(() => parse("3 + + 4")).toThrow();
-      // expect(() => parse("3.5")).toThrow(); // Only integers are supported
+    //  expect(() => parse("3.5")).toThrow(); // Only integers are supported
     });
 
     test('should handle incomplete expressions', () => {
@@ -127,5 +127,26 @@ describe('Parser Tests', () => {
       expect(parse("7 - 5 - 1")).toBe(1);
     });
   });
+  describe('Floating point', () => {
+    test('handle float numbers', () => {
+      expect(parse("2.35")).toBe(2.35);
+      expect(parse("2.35e-3")).toBe(0.00235);
+      expect(parse("2.35e+3")).toBe(2350);
+      expect(parse("2.35E-3")).toBe(0.00235);
+      expect(parse("23")).toBe(23);
+    });
+    test ('you can operate with float number', () => {
+      expect(parse("2.35 + 0.75")).toBe(3.1);
+      expect(parse("2.35 - 0.30")).toBeCloseTo(2.05);
+      expect(parse("2.35 * 0.5")).toBe(1.175);
+      expect(parse("2.35 ** 1.5")).toBeCloseTo(3.602481783);
+      expect(parse ("2.35 / 0.5")).toBe(4.7);
+    });
+  });
 
+  describe ('One line comments', () => {
+    test ('calculates even with the comment', () => {
+      expect(parse("2 + 5 // this is a comment")).toBe(7);
+    });
+  });
 });
