@@ -91,7 +91,7 @@ L => E eof => E / T eof => E - T / T eof => T - T / T eof => T - T / 2 eof => T 
 ### Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases. 
 #### 4.0 - 2.0 * 3.0,
 ```mermaid
-graph TD;
+graph BT;
 L --> E
 L --> eof
 E --> E1
@@ -108,7 +108,7 @@ T2 --> 4.0
 #### 2 ** 3 ** 2
 ```
 mermaid
-graph TD;
+graph BT;
 L --> E
 L --> eof
 E --> E1
@@ -125,7 +125,7 @@ T2 --> 2
 #### 7 - 4 / 2 
 ```
 mermaid
-graph TD;
+graph BT;
 L --> E
 L --> eof
 E --> E1
@@ -145,9 +145,8 @@ Las acciones semántixas se evaluan de **izquierda a derecha** ya que todos los 
 ![test failed](media/failed-test.png)
 ## Modifique la gramática del fichero grammar.jison de manera que se respete la precedencia y la asociatividad de los operadores matemáticos.
 ![grammar param](media/grammar.png)
-
 ## Añada los test correspondientes para comprobar que se respeta la precedencia y asociatividad con flotantes.
-
+![test float](media/test-passed.png)
 ## Modifique el programa Jison para que se reconozcan expresiones entre paréntesis
 ![grammar param](media/grammar-param.png)
 ## Añada los test correspondientes para las expresiones entre paréntesis
