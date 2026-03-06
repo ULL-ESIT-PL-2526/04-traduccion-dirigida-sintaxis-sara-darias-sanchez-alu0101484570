@@ -73,21 +73,29 @@ Modificamos la regla ```[0-9]+    { return 'NUMBER';}``` y la cambiamos a
 
 # Práctica 5
 ## Partiendo de la gramática y las siguientes frases 4.0 - 2.0 * 3.0, 2 \** 3 ** 2 y 7 - 4 / 2  
-La gramática:
+La gramática:    
 L → E eof    
 E → E1 op T    
 E → T    
 T → number 
 ### Escriba la derivación para cada una de las frases.   
-#### 4.0 - 2.0 * 3.0,
-L => E eof => E * T eof => E * 3.0 eof => E - T * 3.0 eof => E - 2.0 * 3.0 eof => T - 2.0 * 3.0 eof => 4.0 - 2.0 * 3.0 eof
-L => E eof => E * T eof => E - T * T eof => E - T * 3.0 eof => E - 2.0 * 3.0 eof => T - 2.0 * 3.0 eof => 4.0 - 2.0 * 3.0 eof
+#### 4.0 - 2.0 * 3.0
+##### derivación a derechas
+L => E eof => E op T eof => E op 3.0 eof => E * 3.0 eof => E op T * 3.0 eof => E op 2.0 * 3.0 eof => E - 2.0 * 3.0 eof => T - 2.0 * 3.0 eof => 4.0 - 2.0 * 3.0 eof
+##### derivación a izquierdas
+L => E eof => E op T eof => E op T op T eof => T op T op T eof => number op T op T  eof => 4.0 op T op T eof => 4.0 - T op T eof => 4.0 - 2.0 op eof => 4.0 - 2.0 * T eof => 4.0 - 2.0 * 3.0 eof
 #### 2 ** 3 ** 2
-L => E eof => E ** T eof => E ** 2 eof => E ** T ** 2 eof => E ** 3 ** 2 => T ** 3 ** 2 eof => 2 ** 3 ** 2 eof    
-L => E eof => E ** T eof => E ** T ** T eof => E ** T ** 2 => E ** 3 ** 2 eof => T ** 3 ** 2 eof => 2 ** 3 ** 2 eof
+##### derivación a derechas
+L => E eof => E op T eof => E op 2 eof => E ** 2 eof => E op T ** 2 eof => E op 3 ** 2 eof => E ** 3 ** 2 eof => T ** 3 ** 2 eof => 2 ** 3 ** 2 eof
+##### derivación a izquierdas
+L => E eof => E op T eof => E op T op T eof => T op T op T eof => 2 op T op T eof => 2 ** T op T eof => 2 ** 3 op T eof =>  2 ** 3 ** T eof => 2 ** 3 ** 2 eof  
 #### 7 - 4 / 2 
-L => E eof => E / T eof => E / 2 eof => E - T / 2 eof => E - 4 / 2 eof => T - 4 / 2 eof => 7 - 4 / 2 eof 
-L => E eof => E / T eof => E - T / T eof => T - T / T eof => T - T / 2 eof => T - 4 / 2 eof => 7 - 4 / 2 eof
+##### derivación a derechas
+
+L => E eof => E op T eof => E op 2 eof => E / 2 eof => E op T / 2 eof => E op 4 / 2 eof => E - 4 / 2 eof => T - 4 / 2 eof => 7 - 4 / 2 eof
+
+##### derivación a izquierdas
+L => E eof => E op T eof => E op T op T eof => T op T op T eof => 7 op T op T eof => 7 - T op T eof => 7 - 4 op T eof => 7 - 4 / T eof =>  7 - 4 / 2 eof 
 ### Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases. 
 #### 4.0 - 2.0 * 3.0,
 ```mermaid
