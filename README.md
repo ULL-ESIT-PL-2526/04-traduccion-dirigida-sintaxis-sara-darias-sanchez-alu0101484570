@@ -1,13 +1,25 @@
-# Práctica 4 Traducción dirigida por la sintaxis: léxico
+# Práctica 4 y 5 Traducción dirigida por la sintaxis: léxico y gramática
 Esta es la cuarta práctica de la asignatura Procesadores de Lenguajes que es una asignatura obligatoria de la mención de computación del grado de ingeniería informática de la ULL.
 ##  Estructura
-En esta práctica se pretende 
-1 Instalar dependencias y ejecutar los test
-2 Cuestiones sobre el Lexer en Jison
-3 Modificar el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
-4 Modificar el analizador léxico de grammar.jison para que reconozca números en punto flotante.
-5  Añadir pruebas para las modificaciones del analizador léxico de grammar.jison.
+En esta práctica se pretende   
+### Práctica 4
+1. Instalar dependencias y ejecutar los test
+2. Cuestiones sobre el Lexer en Jison
+3. Modificar el analizador léxico de grammar.jison para que se salte los comentarios de una línea que empiezan por //.
+4. Modificar el analizador léxico de grammar.jison para que reconozca números en punto flotante.
+5. Añadir pruebas para las modificaciones del analizador léxico de grammar.jison.   
+### Práctica 5
+1. Partiendo de la gramática y las siguientes frases 4.0-2.0*3.0, 2\**3**2 y 7-4/2  
+1.1. Escriba la derivación para cada una de las frases.   
+1.2. Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases.   
+1.3. En qué orden se evaluan las acciones semánticas para cada una de las frases?   
+1.4. Añada un fichero prec.test.js al directorio \__test__ con las siguientes pruebas y compruebe que con la implementación actual fallan.
+2. Modifique la gramática del fichero grammar.jison de manera que se respete la precedencia y la asociatividad de los operadores matemáticos.
+3. Añada los test correspondientes para comprobar que se respeta la precedencia y asociatividad con flotantes.
+4. Codifique el programa Jison para que se reconozcan expresiones entre paréntesis
+5. Añada los test correspondientes para las expresiones entre paréntesis
 
+# Práctica 4
 ## Instalar dependencias y ejecutar los test
 Se instalaron las dependencias con ```npm install ``` y se genero el analizador sintáctico con ```npx jison src/grammar.jison -o src/parser.js``` 
 ### Ejecutar los test
@@ -58,3 +70,84 @@ Modificamos la regla ```[0-9]+    { return 'NUMBER';}``` y la cambiamos a
 
 ### Añada pruebas para las modificaciones del analizador léxico de grammar.jison.
 ![test](media/tests.png)
+
+# Práctica 5
+## Partiendo de la gramática y las siguientes frases 4.0 - 2.0 * 3.0, 2 \** 3 ** 2 y 7 - 4 / 2  
+La gramática:
+L → E eof    
+E → E1 op T    
+E → T    
+T → number 
+### Escriba la derivación para cada una de las frases.   
+#### 4.0 - 2.0 * 3.0,
+L => E eof => E * T eof => E * 3.0 eof => E - T * 3.0 eof => E - 2.0 * 3.0 eof => T - 2.0 * 3.0 eof => 4.0 - 2.0 * 3.0 eof
+L => E eof => E * T eof => E - T * T eof => E - T * 3.0 eof => E - 2.0 * 3.0 eof => T - 2.0 * 3.0 eof => 4.0 - 2.0 * 3.0 eof
+#### 2 ** 3 ** 2
+L => E eof => E ** T eof => E ** 2 eof => E ** T ** 2 eof => E ** 3 ** 2 => T ** 3 ** 2 eof => 2 ** 3 ** 2 eof    
+L => E eof => E ** T eof => E ** T ** T eof => E ** T ** 2 => E ** 3 ** 2 eof => T ** 3 ** 2 eof => 2 ** 3 ** 2 eof
+#### 7 - 4 / 2 
+L => E eof => E / T eof => E / 2 eof => E - T / 2 eof => E - 4 / 2 eof => T - 4 / 2 eof => 7 - 4 / 2 eof 
+L => E eof => E / T eof => E - T / T eof => T - T / T eof => T - T / 2 eof => T - 4 / 2 eof => 7 - 4 / 2 eof
+### Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases. 
+#### 4.0 - 2.0 * 3.0,
+```mermaid
+graph BT;
+L --> E
+L --> eof
+E --> E1
+E --> *
+E --> T
+T --> 3.0
+E1 --> E2
+E1 --> -
+E1 --> T1
+T1 --> 2.0
+E2 --> T2
+T2 --> 4.0
+```
+#### 2 ** 3 ** 2
+```
+mermaid
+graph BT;
+L --> E
+L --> eof
+E --> E1
+E --> *\*
+E --> T
+T --> 2.
+E1 --> E2
+E1 --> **
+E1 --> T1
+T1 --> 3
+E2 --> T2
+T2 --> 2
+```
+#### 7 - 4 / 2 
+```
+mermaid
+graph BT;
+L --> E
+L --> eof
+E --> E1
+E --> /
+E --> T
+T --> 2
+E1 --> E2
+E1 --> -
+E1 --> T1
+T1 --> 4
+E2 --> T2
+T2 --> 7
+```
+### En qué orden se evaluan las acciones semánticas para cada una de las frases?   
+Las acciones semántixas se evaluan de **izquierda a derecha** ya que todos los operadores tienen el mismo nivel de jerarquico ya que están todos definidos mediante el mismo tojen **OP**. Al no diferenciar las distintas precedencias entre las distintas operaciones, como por ejemplo la sumas de las divisiones, el parser va a ir aplicando la función ``òperate()```segun vayan apareciendo los operaciones. Esto provoca que las operaciones en vez de seguir los convenios matemáticos siga el orden en el que se evalúa un árbol de análisis sintáctico, que es recorriendo primero el que se encuentre más anidado a la izquierda.
+### Añada un fichero prec.test.js al directorio \_\_test __ con las siguientes pruebas y compruebe que con la implementación actual fallan.
+![test failed](media/failed-test.png)
+## Modifique la gramática del fichero grammar.jison de manera que se respete la precedencia y la asociatividad de los operadores matemáticos.
+![grammar param](media/grammar.png)
+## Añada los test correspondientes para comprobar que se respeta la precedencia y asociatividad con flotantes.
+![test float](media/test-passed.png)
+## Modifique el programa Jison para que se reconozcan expresiones entre paréntesis
+![grammar param](media/grammar-param.png)
+## Añada los test correspondientes para las expresiones entre paréntesis
+![test pass](media/test-pass-param.png)
