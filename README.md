@@ -113,8 +113,7 @@ OP1["*"]
 OP2["-"]
 ```
 #### 2 ** 3 ** 2
-```
-mermaid
+```mermaid
 graph TD
 L --> E
 L --> eof
@@ -137,8 +136,7 @@ OP1["**"]
 OP2["**"]
 ```
 #### 7 - 4 / 2 
-```
-mermaid
+```mermaid
 graph TD
 L --> E
 L --> eof
