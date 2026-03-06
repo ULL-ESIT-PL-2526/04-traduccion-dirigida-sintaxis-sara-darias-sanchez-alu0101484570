@@ -91,53 +91,74 @@ L => E eof => E / T eof => E - T / T eof => T - T / T eof => T - T / 2 eof => T 
 ### Escriba el árbol de análisis sintáctico (parse tree) para cada una de las frases. 
 #### 4.0 - 2.0 * 3.0,
 ```mermaid
-graph BT;
+graph TD
 L --> E
 L --> eof
+
 E --> E1
-E --> *
-E --> T
-T --> 3.0
+E --> OP1
+E --> T1
+
 E1 --> E2
-E1 --> -
-E1 --> T1
-T1 --> 2.0
-E2 --> T2
-T2 --> 4.0
+E1 --> OP2
+E1 --> T2
+
+E2 --> T3
+T3 --> N40["num(4.0)"]
+
+T2 --> N20["num(2.0)"]
+T1 --> N30["num(3.0)"]
+
+OP1["+"] 
+OP2["-"]
 ```
 #### 2 ** 3 ** 2
 ```
 mermaid
-graph BT;
+graph TD
 L --> E
 L --> eof
+
 E --> E1
-E --> *\*
-E --> T
-T --> 2.
+E --> OP1
+E --> T1
+
 E1 --> E2
-E1 --> **
-E1 --> T1
-T1 --> 3
-E2 --> T2
-T2 --> 2
+E1 --> OP2
+E1 --> T2
+
+E2 --> T3
+T3 --> N2["num(2)"]
+
+T2 --> N3["num(3)"]
+T1 --> N22["num(2)"]
+
+OP1["*"]
+OP2["*"]
 ```
 #### 7 - 4 / 2 
 ```
 mermaid
-graph BT;
+graph TD
 L --> E
 L --> eof
+
 E --> E1
-E --> /
-E --> T
-T --> 2
+E --> OP1
+E --> T1
+
 E1 --> E2
-E1 --> -
-E1 --> T1
-T1 --> 4
-E2 --> T2
-T2 --> 7
+E1 --> OP2
+E1 --> T2
+
+E2 --> T3
+T3 --> N7["num(7)"]
+
+T2 --> N4["num(4)"]
+T1 --> N2["num(2)"]
+
+OP1["/"]
+OP2["-"]
 ```
 ### En qué orden se evaluan las acciones semánticas para cada una de las frases?   
 Las acciones semántixas se evaluan de **izquierda a derecha** ya que todos los operadores tienen el mismo nivel de jerarquico ya que están todos definidos mediante el mismo tojen **OP**. Al no diferenciar las distintas precedencias entre las distintas operaciones, como por ejemplo la sumas de las divisiones, el parser va a ir aplicando la función ``òperate()```segun vayan apareciendo los operaciones. Esto provoca que las operaciones en vez de seguir los convenios matemáticos siga el orden en el que se evalúa un árbol de análisis sintáctico, que es recorriendo primero el que se encuentre más anidado a la izquierda.
