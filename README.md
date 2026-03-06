@@ -142,3 +142,5 @@ T2 --> 7
 ### En qué orden se evaluan las acciones semánticas para cada una de las frases?   
 Las acciones semántixas se evaluan de **izquierda a derecha** ya que todos los operadores tienen el mismo nivel de jerarquico ya que están todos definidos mediante el mismo tojen **OP**. Al no diferenciar las distintas precedencias entre las distintas operaciones, como por ejemplo la sumas de las divisiones, el parser va a ir aplicando la función ``òperate()```segun vayan apareciendo los operaciones. Esto provoca que las operaciones en vez de seguir los convenios matemáticos siga el orden en el que se evalúa un árbol de análisis sintáctico, que es recorriendo primero el que se encuentre más anidado a la izquierda.
 ### Añada un fichero prec.test.js al directorio \_\_test __ con las siguientes pruebas y compruebe que con la implementación actual fallan.
+![test failed](media/failed-test.png)
+## Modifique la gramática del fichero grammar.jison de manera que se respete la precedencia y la asociatividad de los operadores matemáticos.
