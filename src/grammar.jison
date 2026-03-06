@@ -7,6 +7,8 @@
 "**"                                            { return 'OPOW';         }
 [*/]                                            { return 'OPMU';         }
 [-+]                                            { return 'OPAD';         }
+"("                                             { return 'LEFTPAR';      }
+")"                                             { return 'RIGHTPAR';     }
 <<EOF>>                                         { return 'EOF';          }
 .                                               { return 'INVALID';      }
 /lex
@@ -43,7 +45,11 @@ R   : F OPOW R
 
 F   : NUMBER
         { $$ = Number(yytext); }
-    ;    
+    | LEFTPAR E RIGHTPAR
+        {$$ = $2;}
+    ;
+
+    
 %%
 
 function operate(op, left, right) {
