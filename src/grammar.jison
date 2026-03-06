@@ -4,33 +4,52 @@
 \s+                                             { /* skip whitespace */; }
 "//"[^\n]*                                      { /* skip line comments*/; }  
 [0-9]+(\.[0-9]+)?([eE][+-][0-9]+)?              { return 'NUMBER';       }
-"**"                                            { return 'OP';           }
-[-+*/]                                          { return 'OP';           }
+"**"                                            { return 'OPOW';         }
+[*/]                                            { return 'OPMU';         }
+[-+]                                            { return 'OPAD';         }
+"("                                             { return 'LEFTPAR';      }
+")"                                             { return 'RIGHTPAR';     }
 <<EOF>>                                         { return 'EOF';          }
 .                                               { return 'INVALID';      }
 /lex
 
 /* Parser */
-%start expressions
+%start L
 %token NUMBER
 %%
 
-expressions
-    : expression EOF
-        { return $expression; }
+L
+    : E EOF
+        { return $1; }
     ;
 
-expression
-    : expression OP term
-        { $$ = operate($OP, $expression, $term); }
-    | term
-        { $$ = $term; }
+E
+    : E OPAD T
+        { $$ = operate($2, $1, $3); }
+    | T
+        { $$ = $1; }
     ;
 
-term
-    : NUMBER
+
+T   : T OPMU R
+        {$$ = operate($2, $1, $3)}
+    | R
+        {$$ = $1;}
+    ;
+
+R   : F OPOW R 
+        {$$ = operate($2, $1, $3)}
+    | F
+        {$$ = $1;}
+    ;
+
+F   : NUMBER
         { $$ = Number(yytext); }
+    | LEFTPAR E RIGHTPAR
+        {$$ = $2;}
     ;
+
+    
 %%
 
 function operate(op, left, right) {
