@@ -33,4 +33,27 @@ describe('Parser Failing Tests', () => {
     expect(parse("100 - 50 + 25")).toBe(75); // (100 - 50) + 25 = 75
     expect(parse("2 * 3 + 4 * 5")).toBe(26); // (2 * 3) + (4 * 5) = 26
   });
+  describe('floating point precision', () => { 
+    test('should handle floating point precision correctly', () => {
+      expect(parse("0.1 + 0.2")).toBeCloseTo(0.3); // 0.1 + 0.2 = 0.3
+      expect(parse("0.1 * 0.2")).toBeCloseTo(0.02); // 0.1 * 0.2 = 0.02
+      expect(parse("0.3 - 0.1")).toBeCloseTo(0.2); // 0.3 - 0.1 = 0.2
+      expect(parse("0.3 / 0.1")).toBeCloseTo(3); // 0.3 / 0.1 = 3
+    });
+    test('should handle scientific notation', () => {
+      expect(parse("1e+10 + 1e+10")).toBe(2e10);
+      expect(parse("1e-10 + 1e-10")).toBe(2e-10);
+    });
+    test('should handle very large and very small numbers', () => {
+      expect(parse("1e+100 + 1e+100")).toBe(2e100);
+      expect(parse("1e-100 + 1e-100")).toBe(2e-100);
+    });
+    test('should handle precision in complex expressions', () => {
+      expect(parse("0.1 + 0.2 * 0.3")).toBeCloseTo(0.16); // 0.1 + (0.2 * 0.3) = 0.16
+      expect(parse("(0.1 + 0.2) * 0.3")).toBeCloseTo(0.09); // (0.1 + 0.2) * 0.3 = 0.09
+    });
+    test('should handle precision in scientific notation in complex expressions', () => {
+      expect(parse("1e+10 + 1e+10 * 1e-10")).toBeCloseTo(10000000001); // 1e+10 + (1e+10 * 1e-10) = 2e+10
+    });
+  });
 });
