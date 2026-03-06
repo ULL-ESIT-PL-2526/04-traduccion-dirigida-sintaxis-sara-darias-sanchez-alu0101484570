@@ -144,3 +144,11 @@ Las acciones semántixas se evaluan de **izquierda a derecha** ya que todos los 
 ### Añada un fichero prec.test.js al directorio \_\_test __ con las siguientes pruebas y compruebe que con la implementación actual fallan.
 ![test failed](media/failed-test.png)
 ## Modifique la gramática del fichero grammar.jison de manera que se respete la precedencia y la asociatividad de los operadores matemáticos.
+![grammar param](media/grammar.png)
+
+## Añada los test correspondientes para comprobar que se respeta la precedencia y asociatividad con flotantes.
+
+## Modifique el programa Jison para que se reconozcan expresiones entre paréntesis
+![grammar param](media/grammar-param.png)
+## Añada los test correspondientes para las expresiones entre paréntesis
+![test pass](media/test-pass-param.png)
